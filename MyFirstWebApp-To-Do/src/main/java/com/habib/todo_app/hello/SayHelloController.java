@@ -23,7 +23,7 @@ public class SayHelloController {
 	
 	@GetMapping("say-hello-jsp")
 	public String sayHelloJsp() {
-		return "SayHello";
+		return "sayHello";
 	}
 	
 }
