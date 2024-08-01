@@ -11,7 +11,12 @@
 </head>
 <body>
 	<div>
+		<h1>Welcome to ${name}</h1>
+	</div>
+	<hr />
+	<div>
 		<h3>Your Todos are:</h3>
+		<hr />
 		<table>
 			<thead>
 				<tr>
