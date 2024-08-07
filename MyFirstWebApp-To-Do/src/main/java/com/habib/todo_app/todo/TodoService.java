@@ -11,12 +11,14 @@ public class TodoService {
 
 	private static List<Todo> todos = new ArrayList<Todo>();
 	
+	private static int todosCount = 0;
+	
 	static {
-		todos.add(Todo.builder().id(1).username("in28minutes").description("AWS").localDate(LocalDate.now().plusYears(1)).done(false).build());
-		todos.add(Todo.builder().id(2).username("in28minutes").description("AWS").localDate(LocalDate.now().plusYears(1)).done(false).build());
-		todos.add(Todo.builder().id(3).username("in28minutes").description("AWS").localDate(LocalDate.now().plusYears(1)).done(false).build());
-		todos.add(Todo.builder().id(4).username("in28minutes").description("AWS").localDate(LocalDate.now().plusYears(1)).done(false).build());
-		todos.add(Todo.builder().id(5).username("in28minutes").description("AWS").localDate(LocalDate.now().plusYears(1)).done(false).build());
+		todos.add(Todo.builder().id(++todosCount).username("in28minutes").description("AWS").localDate(LocalDate.now().plusYears(1)).done(false).build());
+		todos.add(Todo.builder().id(++todosCount).username("in28minutes").description("AWS").localDate(LocalDate.now().plusYears(1)).done(false).build());
+		todos.add(Todo.builder().id(++todosCount).username("in28minutes").description("AWS").localDate(LocalDate.now().plusYears(1)).done(false).build());
+		todos.add(Todo.builder().id(++todosCount).username("in28minutes").description("AWS").localDate(LocalDate.now().plusYears(1)).done(false).build());
+		todos.add(Todo.builder().id(++todosCount).username("in28minutes").description("AWS").localDate(LocalDate.now().plusYears(1)).done(false).build());
 	}
 	
 	public List<Todo> findByUsername(String username) {
@@ -25,5 +27,10 @@ public class TodoService {
 	
 	public List<Todo> findAll() {
 		return todos;
+	}
+	
+	public void addTodo(String username, String description, LocalDate targetDate, boolean done) {
+		Todo todo = Todo.builder().id(++todosCount).username("in28minutes").description(description).localDate(targetDate).done(false).build();
+		todos.add(todo);
 	}
 }

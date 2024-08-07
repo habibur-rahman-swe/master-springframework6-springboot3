@@ -6,18 +6,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href="webjars/bootstrap/5.1.3/css/bootstrap.min.css"
+	rel="stylesheet">
 <meta charset="UTF-8">
 <title>List todos page</title>
 </head>
 <body>
-	<div>
+	<div class="container">
 		<h1>Welcome to ${name}</h1>
 	</div>
 	<hr />
-	<div>
+	<div class="container">
 		<h3>Your Todos are:</h3>
 		<hr />
-		<table>
+		<table class="table">
 			<thead>
 				<tr>
 					<th>Id</th>
@@ -40,6 +42,10 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		<a href="add-todo" class="btn btn-success">Add Todo</a>
 	</div>
+
+	<script src="webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+	<script src="webjars/jquery/3.7.1/jquery.min.js"></script>
 </body>
 </html>
