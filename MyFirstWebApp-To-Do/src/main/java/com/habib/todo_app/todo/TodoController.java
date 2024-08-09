@@ -34,6 +34,7 @@ public class TodoController {
 	@PostMapping("add-todo")
 	public String addTodoPage(ModelMap modelMap, @Valid Todo todo, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
+			todo.setDescription(bindingResult.getAllErrors().toString());
 			return "todo";
 		}
 		todoService.addTodo("in28minutes", todo.getDescription(), LocalDate.now().plusYears(1) , false);

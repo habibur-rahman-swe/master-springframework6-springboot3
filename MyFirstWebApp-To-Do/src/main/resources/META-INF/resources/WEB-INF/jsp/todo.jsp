@@ -18,7 +18,14 @@
 		<h1>Enter new todo details...</h1>
 		<form:form method="post" modelAttribute="todo">
 			Description: <form:input type="text" path="description"
-				required="required" /> <br/>
+				required="required" />
+			<br />
+			<form:errors path="description"></form:errors>
+			<br />
+			<form:input path="id" type="hidden" />
+			<br />
+			<form:input path="done" type="hidden" />
+			<br />
 			<input type="submit" class="btn btn-success" />
 		</form:form>
 	</div>

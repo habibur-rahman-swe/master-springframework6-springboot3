@@ -9,10 +9,10 @@ import lombok.Data;
 @Data
 @Builder
 public class Todo {
-	private int id;
+	private int id = 0;
 	private String username;
 	@Size(min = 10, message = "Enter atleast 10 characters")
 	private String description;
 	private LocalDate localDate;
-	private boolean done;
+	private boolean done = false;
 }
