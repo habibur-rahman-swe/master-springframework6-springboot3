@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @Builder
 public class Todo {
-	private int id = 0;
+	private Long id;
 	private String username;
 	@Size(min = 10, message = "Enter atleast 10 characters")
 	private String description;

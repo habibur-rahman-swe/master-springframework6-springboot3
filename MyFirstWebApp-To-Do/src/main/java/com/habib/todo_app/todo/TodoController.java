@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import jakarta.validation.Valid;
@@ -40,4 +41,30 @@ public class TodoController {
 		todoService.addTodo("in28minutes", todo.getDescription(), LocalDate.now().plusYears(1) , false);
 		return "redirect:list-todos";
 	}
+	
+	@GetMapping("delete-todo")
+	public String deleteTodo(@RequestParam Long id) {
+		todoService.deleteById(id);
+		return "redirect:list-todos";
+	}
+	
+	@GetMapping("update-todo")
+	public String updateTodo(@RequestParam Long id, ModelMap modelMap) {
+		Todo todo = todoService.findById(id);
+		modelMap.addAttribute("todo", todo);
+		return "todo";
+	}
+	
+	@PostMapping("update-todo")
+	public String updateTodo(ModelMap modelMap, @Valid Todo todo, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			todo.setDescription(bindingResult.getAllErrors().toString());
+			return "todo";
+		}
+		
+		todoService.updateTodo(todo);
+		
+		return "redirect:list-todos";
+	}
+	
 }
