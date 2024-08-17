@@ -5,9 +5,10 @@
 	<h1>Enter new todo details...</h1>
 	<form:form method="post" modelAttribute="todo">
 		<fieldset class="mb-3">
-			<form:label path="id">Id : </form:label>
-			<form:input type="number" path="id" required="required" />
-			<form:errors path="id" cssClass="text-warning"></form:errors>
+			<form:input type="hidden" path="id" required="required" />
+		</fieldset>
+		<fieldset class="mb-3">
+			<form:input type="hidden" path="username" value="${name}" required="required" />
 		</fieldset>
 		<fieldset class="mb-3">
 			<form:label path="done">Done : </form:label>

@@ -1,10 +1,9 @@
 package com.habib.todo_app.todo;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.validation.Valid;
@@ -12,46 +11,39 @@ import jakarta.validation.Valid;
 @Service
 public class TodoService {
 
-	private static List<Todo> todos = new ArrayList<Todo>();
-	
-	private static Long todosCount = 0l;
-	
-	static {
-		todos.add(Todo.builder().id(++todosCount).username("in28minutes").description("AWS").localDate(LocalDate.now().plusYears(1)).done(false).build());
-		todos.add(Todo.builder().id(++todosCount).username("in28minutes").description("AWS").localDate(LocalDate.now().plusYears(1)).done(false).build());
-		todos.add(Todo.builder().id(++todosCount).username("in28minutes").description("AWS").localDate(LocalDate.now().plusYears(1)).done(false).build());
-		todos.add(Todo.builder().id(++todosCount).username("in28minutes").description("AWS").localDate(LocalDate.now().plusYears(1)).done(false).build());
-		todos.add(Todo.builder().id(++todosCount).username("in28minutes").description("AWS").localDate(LocalDate.now().plusYears(1)).done(false).build());
-	}
+	@Autowired
+	private TodoRepository todoRepository;
 	
 	public List<Todo> findByUsername(String username) {
-		return todos;
+		return todoRepository.findByUsername(username);
 	}
 	
 	public List<Todo> findAll() {
-		return todos;
+		return todoRepository.findAll();
 	}
 	
-	public void addTodo(String username, String description, LocalDate targetDate, boolean done) {
-		Todo todo = Todo.builder().id(++todosCount).username("in28minutes").description(description).localDate(targetDate).done(false).build();
-		todos.add(todo);
+	public void addTodo(Todo todo) {
+		Todo createdTodo = todoRepository.save(todo);
 	}
 
 	public void deleteById(Long id) {
 //		todos = todos.stream().filter(todo -> todo.getId() != id).collect(Collectors.toList());
-		Predicate<? super Todo> predicate = todo -> todo.getId() == id;
-		todos.removeIf(predicate);
+//		Predicate<? super Todo> predicate = todo -> todo.getId() == id;
+//		todos.removeIf(predicate);
+		todoRepository.deleteById(id);
 	}
 
 	public Todo findById(Long id) {
-		Predicate<? super Todo> predicate = todo -> todo.getId() == id;
-		Todo todo = todos.stream().filter(predicate).findFirst().get();
-		return todo;
+		//Predicate<? super Todo> predicate = todo -> todo.getId() == id;
+		Optional<Todo> todo = todoRepository.findById(id);
+				// todos.stream().filter(predicate).findFirst().get();
+		return todo.get();
 	}
 
 	public void updateTodo(@Valid Todo todo) {
-		Todo Oldtodo = findById(todo.getId());
-		Oldtodo.setDescription(todo.getDescription());
-		Oldtodo.setLocalDate(todo.getLocalDate());
+		// Todo Oldtodo = findById(todo.getId());
+		// Oldtodo.setDescription(todo.getDescription());
+		// Oldtodo.setLocalDate(todo.getLocalDate());
+		todoRepository.save(todo);
 	}
 }
