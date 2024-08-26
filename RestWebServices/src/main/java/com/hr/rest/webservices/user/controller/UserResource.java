@@ -4,17 +4,23 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.hr.rest.webservices.entity.User;
+import com.hr.rest.webservices.user.error_handler.UserNotFoundException;
 import com.hr.rest.webservices.user.service.UserModelService;
 
+import jakarta.validation.Valid;
+
 @RestController
+@RequestMapping("/users")
 public class UserResource {
 	/*
 	 * 404 -> Resource is not found
@@ -35,18 +41,22 @@ public class UserResource {
 		this.service = userModelService;
 	}
 	
-	@GetMapping("/users")
+	@GetMapping
 	public List<User> retriveAllUsers() {
 		return service.findAll();
 	}
 	
-	@GetMapping("/users/{id}")
-	public User retriveAllUser(@PathVariable("id") Long id) {
-		return service.findById(id);
+	@GetMapping("/{id}")
+	public User retriveAllUser(@PathVariable("id") Long id) throws UserNotFoundException {
+		User user = service.findById(id);
+		if (user == null) {
+			throw new UserNotFoundException("id: " + id);
+		}
+		return user;
 	}
 	
-	@PostMapping("/users")
-	public ResponseEntity<User> createUser(@RequestBody User user) {
+	@PostMapping
+	public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
 		
 		User savedUser = service.save(user);
 		
@@ -57,4 +67,14 @@ public class UserResource {
 		
 		return ResponseEntity.created(location).build();
 	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<User> deleteUser(@PathVariable Long id) throws UserNotFoundException {
+	    User user = service.deleteById(id);
+	    if (user == null) {
+	        throw new UserNotFoundException("id: " + id);
+	    }
+	    return ResponseEntity.ok(user);
+	}
+	
 }

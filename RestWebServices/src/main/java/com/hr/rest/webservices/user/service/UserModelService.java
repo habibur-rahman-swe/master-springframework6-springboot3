@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -37,6 +39,15 @@ public class UserModelService {
 	public User findById(Long id) {
 		Predicate<? super User> predicate = user -> user.getId().equals(id);
 		return users.stream().filter(predicate).findFirst().get();
+	}
+
+	public User deleteById(Long id) {
+		Predicate<? super User> predicate1 = user -> user.getId().equals(id);
+		Predicate<? super User> predicate2 = user -> user.getId() != id;
+		
+		User user = users.stream().filter(predicate1).findFirst().get();
+		users = users.stream().filter(predicate2).collect(Collectors.toList());
+		return user;
 	}
 	
 }
